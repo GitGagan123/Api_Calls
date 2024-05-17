@@ -1,5 +1,8 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
+require('dotenv').config();
+
+const mongo_url = process.env.DB_URL;
 
 async function listDatabases(client) {
   databasesList = await client.db().admin().listDatabases();
@@ -9,7 +12,7 @@ async function listDatabases(client) {
 }
 
 async function connect() {
-  const mongoUrl = "mongodb+srv://musidivalasagagan:5YtnigceTG98hZ5D@cluster0.ptpqcmt.mongodb.net/";
+  const mongoUrl = mongo_url;
 
   const client = new MongoClient(mongoUrl);
   try {

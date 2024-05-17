@@ -1,7 +1,10 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config();
+
+const app_passwd = process.env.APP_PASSWORD;
 
 const senderEmail = "musidivalasagagan@gmail.com";
-const senderPassword = "ajkvijfhdgrueihj";
+const senderPassword = app_passwd;
 
 // Set up the transporter
 const transporter = nodemailer.createTransport({
