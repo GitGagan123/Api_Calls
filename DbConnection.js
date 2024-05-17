@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require('dotenv').config();
+
+const mongo_url = process.env.DB_URL;
 
 const app = express();
 
-const mongoUrl = "mongodb+srv://musidivalasagagan:5YtnigceTG98hZ5D@cluster0.ptpqcmt.mongodb.net/";
+const mongoUrl = mongo_url;
 
 async function connectMongoDb(){
   try{

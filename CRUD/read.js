@@ -1,7 +1,10 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const cors = require('cors');
+const cors = require("cors");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
+const mongo_url = process.env.DB_URL;
 const app = express();
 app.use(cors());
 
@@ -69,8 +72,7 @@ async function readMultipleDocuments(
 let listings = [];
 
 async function readDocument() {
-  const mongoUrl =
-    "mongodb+srv://musidivalasagagan:5YtnigceTG98hZ5D@cluster0.ptpqcmt.mongodb.net/";
+  const mongoUrl = mongo_url;
 
   const client = new MongoClient(mongoUrl);
   try {

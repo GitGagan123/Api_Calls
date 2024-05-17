@@ -1,4 +1,7 @@
 const { MongoClient } = require("mongodb");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+
+const mongo_url = process.env.DB_URL;
 
 async function updateSingleDocument(client, nameOfListing, updatedListing) {
   const result = await client
@@ -20,28 +23,32 @@ async function upsertSingleDocument(client, nameOfListing, updatedListing) {
       { upsert: true }
     );
 
-    console.log(`${result.matchedCount} document(s) matched the criteria`);
+  console.log(`${result.matchedCount} document(s) matched the criteria`);
 
-    if(result.upsertedCount > 0){
-        console.log(`one documented was inserted with id : ${result.upsertedId._id}`);
-    } else{
-        console.log(`${result.modifiedCount} document(s) were updated`);
-    }
+  if (result.upsertedCount > 0) {
+    console.log(
+      `one documented was inserted with id : ${result.upsertedId._id}`
+    );
+  } else {
+    console.log(`${result.modifiedCount} document(s) were updated`);
+  }
 }
 
-async function updateMultipleDocuments(client){
-    const result = await client.db("sample_airbnb").collection("listingsAndReviews").updateMany(
-        {property_type: {$exists : false}},
-        {$set: {property_type:"UnKnown"}} // set the value of "beds" to 4 for all matching documents
-    )
-    
-    console.log(`${result.modifiedCount} document(s) were modified.`);
-    console.log(`... and ${result} document(s) were affected by the operation.`);
+async function updateMultipleDocuments(client) {
+  const result = await client
+    .db("sample_airbnb")
+    .collection("listingsAndReviews")
+    .updateMany(
+      { property_type: { $exists: false } },
+      { $set: { property_type: "UnKnown" } } // set the value of "beds" to 4 for all matching documents
+    );
+
+  console.log(`${result.modifiedCount} document(s) were modified.`);
+  console.log(`... and ${result} document(s) were affected by the operation.`);
 }
 
 async function updateDocument() {
-  const mongoUrl =
-    "mongodb+srv://musidivalasagagan:5YtnigceTG98hZ5D@cluster0.ptpqcmt.mongodb.net/";
+  const mongoUrl = mongo_url;
 
   const client = new MongoClient(mongoUrl);
   try {
